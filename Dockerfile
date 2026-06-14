@@ -20,10 +20,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
 WORKDIR /app
 
 # Copy the Node.js script into the container
-COPY autossh.js /app/autossh.js
+COPY server.js /app/server.js
 
 # Make script executable
-RUN chmod +x /app/autossh.js
+RUN chmod +x /app/server.js
 
 # Expose SSH port (2222) that the server will run on
 EXPOSE 2222
