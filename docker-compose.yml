@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  proot-ssh:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: proot-ubuntu-ssh
+    restart: unless-stopped
+    ports:
+      - "2222:2222"        # SSH port
+      - "7860:7860"        # Extra port if you need it for something else
+    environment:
+      NODE_ENV: production
+      DEBIAN_FRONTEND: noninteractive
+    volumes:
+      - ./data:/app/data   # Optional: persist PROOT rootfs across container restarts
+      - /app/node_modules  # Don't mount node_modules from host
+    working_dir: /app
+    stdin_open: true       # Keep stdin open for the PROOT process
+    tty: true              # Allocate a pseudo-TTY
+    command: node autossh.js
+    # Optional: Add health check to verify SSH is running
+    healthcheck:
+      test: ["CMD", "nc", "-zv", "localhost", "2222"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
