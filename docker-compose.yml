@@ -19,7 +19,7 @@ services:
     working_dir: /app
     stdin_open: true       # Keep stdin open for the PROOT process
     tty: true              # Allocate a pseudo-TTY
-    command: node autossh.js
+    command: node server.js
     # Optional: Add health check to verify SSH is running
     healthcheck:
       test: ["CMD", "nc", "-zv", "localhost", "2222"]
